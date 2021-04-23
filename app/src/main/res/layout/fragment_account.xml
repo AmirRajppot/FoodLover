@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragments.Account">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@drawable/ic_undraw_access_account_re_8spm" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
+    <TextView
+        android:id="@+id/account_profile_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="7dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/et_background"
+        android:drawableStart="@drawable/ic_user"
+        android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text="Profile"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/account_purchase_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="7dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/et_background"
+        android:drawableStart="@drawable/ic__7676289951537184110"
+        android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text="Purchase History"
+        android:textColor="@color/black" />
+
+
+</LinearLayout>
