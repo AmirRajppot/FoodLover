@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="7dp"
-        android:text="Welcome\nTo\nFood"
+        android:text="Welcome\nTo\nFood\nLover"
         android:textColor="@color/white"
         android:textSize="50sp"
         android:textStyle="bold" />

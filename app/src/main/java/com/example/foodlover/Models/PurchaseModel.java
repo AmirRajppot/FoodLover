@@ -3,7 +3,7 @@ package com.example.foodlover.Models;
 import java.util.IdentityHashMap;
 
 public class PurchaseModel {
-    int Id ,Price,Order_id;
+    int Id, Price, Order_id;
     String date;
 
     public PurchaseModel(int id, int price, int order_id, String date) {
