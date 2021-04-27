@@ -55,6 +55,7 @@
                             app:boxCornerRadiusTopStart="5dp">
 
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/user_phone_login_et"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:drawableStart="@drawable/ic_mobile_phone"

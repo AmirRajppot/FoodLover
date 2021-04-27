@@ -198,11 +198,35 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/user_password_sign_up_et"
+                android:id="@+id/user_address_sign_up_et"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user_email_sign_up_et"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="10dp"
+                android:hint="Address"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusTopStart="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_location_on_24"
+                    android:drawablePadding="5dp"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:padding="10dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/user_password_sign_up_et"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_address_sign_up_et"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="10dp"
                 android:hint="Password"

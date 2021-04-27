@@ -5,16 +5,16 @@ import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
 import static com.android.volley.toolbox.Volley.newRequestQueue;
 
 public class AppController extends Application {
-
-    public static final String TAG = AppController.class.getSimpleName();
-    private static AppController mInstance;
+    public static final String TAG = com.example.foodlover.HelperClass.AppController.class.getSimpleName();
+    private static com.example.foodlover.HelperClass.AppController mInstance;
     private RequestQueue mRequestQueue;
 
-    public static synchronized AppController getInstance() {
+    public static synchronized com.example.foodlover.HelperClass.AppController getInstance() {
         return mInstance;
     }
 
@@ -26,7 +26,7 @@ public class AppController extends Application {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            mRequestQueue = newRequestQueue(getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         }
 
         return mRequestQueue;
