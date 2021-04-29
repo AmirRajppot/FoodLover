@@ -55,7 +55,7 @@ public class SignUp extends AppCompatActivity {
 
                 } else {
                     get_sign_up(name_et.getEditText().getText().toString(), phone_et.getEditText().getText().toString(),
-                            email_et.getEditText().getText().toString(), cnic_et.getEditText().getText().toString(),address_et.getEditText().getText().toString(), password_et.getEditText().getText().toString());
+                            email_et.getEditText().getText().toString(), cnic_et.getEditText().getText().toString(), address_et.getEditText().getText().toString(), password_et.getEditText().getText().toString());
                 }
             }
         });
@@ -133,22 +133,12 @@ public class SignUp extends AppCompatActivity {
     private boolean validatePass() {
         String getPassword = password_et.getEditText().getText().toString();
 
-//        String passwordVal = "^" +
-//                //"(?=.*[0-9])" +         //at least 1 digit
-//                //"(?=.*[a-z])" +         //at least 1 lower case letter
-//                //"(?=.*[A-Z])" +         //at least 1 upper case letter
-//                "(?=.*[a-zA-Z])" +      //any letter
-//                "(?=.*[@#$%^&+=])" +    //at least 1 special character
-//                "(?=\\S+$)" +           //no white spaces
-//                ".{4,}" +               //at least 4 characters
-//                "$";
-
         if (getPassword.isEmpty()) {
             password_et.setError("Field cannot be Empty");
             return false;
 
-        } else if (getPassword.length() < 8) {
-            password_et.setError("Password must have 8 digits");
+        } else if (getPassword.length() < 5) {
+            password_et.setError("Password must have 5 digits");
             return false;
         }
 //        else if (!getPassword.matches(passwordVal)) {
@@ -183,7 +173,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void get_sign_up(final String name_tv_str, final String phone_tv_str, final String email_tv_str, final String cnic_tv_str, final String
-            address_tv_str,final String password_tv_str) {
+            address_tv_str, final String password_tv_str) {
         String tag_str_req = "req_get_sign_up";
 
 
