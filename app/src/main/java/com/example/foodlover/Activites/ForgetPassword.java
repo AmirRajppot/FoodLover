@@ -50,7 +50,6 @@ public class ForgetPassword extends AppCompatActivity {
                     return;
                 } else {
                     resetPassword(user_id, new_password_forgot_et.getEditText().getText().toString());
-                    Toast.makeText(ForgetPassword.this, "Password Changed", Toast.LENGTH_SHORT).show();
                 }
             }
         });

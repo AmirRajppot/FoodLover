@@ -1,16 +1,11 @@
 package com.example.foodlover.Models;
 
 public class CategoryModel {
-    int Id,Img;
-    String Name;
+    int Id;
+    String Img, Name;
 
-    public CategoryModel(int id, int img, String name) {
+    public CategoryModel(int id, String img, String name) {
         Id = id;
-        Img = img;
-        Name = name;
-    }
-
-    public CategoryModel(int img, String name) {
         Img = img;
         Name = name;
     }
@@ -23,11 +18,11 @@ public class CategoryModel {
         Id = id;
     }
 
-    public int getImg() {
+    public String getImg() {
         return Img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         Img = img;
     }
 

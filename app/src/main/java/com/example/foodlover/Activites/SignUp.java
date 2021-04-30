@@ -158,8 +158,8 @@ public class SignUp extends AppCompatActivity {
             confirm_password_et.setError("Field cannot be empty");
             return false;
 
-        } else if (getConfirmPassword.length() < 8) {
-            confirm_password_et.setError("Password must have 8 digits");
+        } else if (getConfirmPassword.length() < 5) {
+            confirm_password_et.setError("Password must have 5 digits");
             return false;
 
         } else if (!getConfirmPassword.matches(getPassword)) {
