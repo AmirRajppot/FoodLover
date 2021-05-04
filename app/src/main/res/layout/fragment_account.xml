@@ -8,8 +8,10 @@
     tools:context=".Fragments.Account">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
         android:src="@drawable/ic_undraw_access_account_re_8spm" />
 
     <View

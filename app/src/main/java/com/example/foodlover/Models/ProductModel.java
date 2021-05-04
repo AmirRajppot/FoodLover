@@ -1,41 +1,43 @@
 package com.example.foodlover.Models;
 
 public class ProductModel {
-    int Id,Price, Img;
-    String Name,description,quantity,is_deal;
+    int Id,Price,is_famous;
+    String Name,description,quantity,Img;
 
-    public ProductModel(int id, int price, int img, String name) {
+    public ProductModel(int id, int price, String name, String description, String img) {
         Id = id;
         Price = price;
-        Img = img;
-        Name = name;
-    }
-
-    public ProductModel(int id, int price, int img, String name, String description) {
-        Id = id;
-        Price = price;
-        Img = img;
         Name = name;
         this.description = description;
+        Img = img;
     }
 
-    public ProductModel(int id, int price, int img, String name, String description, String quantity, String is_deal) {
+    public ProductModel(int id, int price, int is_famous, String name, String description, String img) {
         Id = id;
         Price = price;
-        Img = img;
+        this.is_famous = is_famous;
         Name = name;
         this.description = description;
-        this.quantity = quantity;
-        this.is_deal = is_deal;
+        Img = img;
     }
 
-    public ProductModel(int id, int price, int img, String name, String description, String quantity) {
+    public ProductModel(int id, int price, int is_famous, String name, String description, String quantity, String img) {
         Id = id;
         Price = price;
-        Img = img;
+        this.is_famous = is_famous;
         Name = name;
         this.description = description;
         this.quantity = quantity;
+        Img = img;
+    }
+
+    public ProductModel(int id, int price, String name, String description, String quantity, String img) {
+        Id = id;
+        Price = price;
+        Name = name;
+        this.description = description;
+        this.quantity = quantity;
+        Img = img;
     }
 
     public int getId() {
@@ -54,12 +56,12 @@ public class ProductModel {
         Price = price;
     }
 
-    public int getImg() {
-        return Img;
+    public int getIs_famous() {
+        return is_famous;
     }
 
-    public void setImg(int img) {
-        Img = img;
+    public void setIs_famous(int is_famous) {
+        this.is_famous = is_famous;
     }
 
     public String getName() {
@@ -86,11 +88,11 @@ public class ProductModel {
         this.quantity = quantity;
     }
 
-    public String getIs_deal() {
-        return is_deal;
+    public String getImg() {
+        return Img;
     }
 
-    public void setIs_deal(String is_deal) {
-        this.is_deal = is_deal;
+    public void setImg(String img) {
+        Img = img;
     }
 }

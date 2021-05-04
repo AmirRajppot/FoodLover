@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodLover"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activites.WishList"></activity>
         <activity
             android:name=".Activites.PurchaseHistory"
             android:label="Purchase History" />

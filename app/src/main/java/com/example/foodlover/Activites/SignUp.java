@@ -189,7 +189,6 @@ public class SignUp extends AppCompatActivity {
                     if (!error) {
                         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-
                         editor.putString("id", jObj.getString("id"));
                         editor.commit();
                         name_et.getEditText().setText("");

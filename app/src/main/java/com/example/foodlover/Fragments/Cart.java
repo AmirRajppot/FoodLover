@@ -29,9 +29,9 @@ public class Cart extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_cart, container, false);
         recyclerView=view.findViewById(R.id.cart_rv);
-        cart_model.add(new ProductModel(1,2000,R.drawable.salad,"Salad"));
-        cart_model.add(new ProductModel(1,2000,R.drawable.pizza,"Salad"));
-        cart_model.add(new ProductModel(1,2000,R.drawable.lisa,"Salad"));
+//        cart_model.add(new ProductModel(1,2000,R.drawable.salad,"Salad"));
+//        cart_model.add(new ProductModel(1,2000,R.drawable.pizza,"Salad"));
+//        cart_model.add(new ProductModel(1,2000,R.drawable.lisa,"Salad"));
 
         cartAdapter = new CartAdapter(cart_model, getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

@@ -1,5 +1,7 @@
 package com.example.foodlover.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -35,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class HomeFragment extends Fragment {
     final static String TAG = HomeFragment.class.getSimpleName();
 
@@ -43,6 +47,8 @@ public class HomeFragment extends Fragment {
     CategoryAdapter categoryAdapter;
     FamousAdapter famousAdapter;
     DealAdapter dealAdapter;
+    String user_id;
+    SharedPreferences preferences;
     private final ArrayList<ProductModel> famous_model = new ArrayList<>();
     private final ArrayList<DealModel> deal_model = new ArrayList<>();
     private final ArrayList<CategoryModel> categoryModels = new ArrayList<>();
@@ -62,24 +68,25 @@ public class HomeFragment extends Fragment {
         famous_title = view.findViewById(R.id.famous_title);
         deal_title = view.findViewById(R.id.deal_title);
         deal_recyclerView = view.findViewById(R.id.deal_rv);
+
+        preferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        user_id = preferences.getString("id", "");
+
         //deal
-        deal_model.add(new DealModel(1, R.drawable.lisa, 1220, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-        deal_model.add(new DealModel(1, R.drawable.pexcels, 1220, "Burger", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-        deal_model.add(new DealModel(1, R.drawable.pizza, 1220, "Pizza", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-        deal_model.add(new DealModel(1, R.drawable.lisa, 1220, "Macrooni", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-        dealAdapter = new DealAdapter(deal_model, getActivity());
-        deal_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        deal_recyclerView.setAdapter(dealAdapter);
+//        deal_model.add(new DealModel(1, R.drawable.lisa, 1220, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
+//        deal_model.add(new DealModel(1, R.drawable.pexcels, 1220, "Burger", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
+//        deal_model.add(new DealModel(1, R.drawable.pizza, 1220, "Pizza", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
+//        deal_model.add(new DealModel(1, R.drawable.lisa, 1220, "Macrooni", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
+
+        get_deals();
 
         //famous
-        famous_model.add(new ProductModel(1, 1220, R.drawable.salad, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-        famous_model.add(new ProductModel(1, 1220, R.drawable.pizza, "Pixel", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-        famous_model.add(new ProductModel(1, 1220, R.drawable.lisa, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-        famous_model.add(new ProductModel(1, 1220, R.drawable.pexcels, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
+        get_famous();
+//        famous_model.add(new ProductModel(1, 1220, R.drawable.salad, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
+//        famous_model.add(new ProductModel(1, 1220, R.drawable.pizza, "Pixel", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
+//        famous_model.add(new ProductModel(1, 1220, R.drawable.lisa, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
+//        famous_model.add(new ProductModel(1, 1220, R.drawable.pexcels, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
 
-        famousAdapter = new FamousAdapter(famous_model, getActivity());
-        famous_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        famous_recyclerView.setAdapter(famousAdapter);
         //menu
 //        categoryModels.add(new CategoryModel(1, R.drawable.salad, "Pizza"));
 //        categoryModels.add(new CategoryModel(2, R.drawable.lisa, "Pizza"));
@@ -142,4 +149,114 @@ public class HomeFragment extends Fragment {
         };
         AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
     }
+
+    ///Famous
+    private void get_famous() {
+        String tag_str_req = "req_get_famous";
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_FAMOUS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "1st Response:" + response);
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.e("second response:", response);
+                    boolean error = jObj.getBoolean("error");
+                    //check for error node in json
+                    if (!error) {
+                        JSONArray array = jObj.getJSONArray("famous");
+                        for (int i = 0; i < array.length(); i++) {
+
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            famous_model.add(new ProductModel(jsonObject.getInt("id"),
+                                    jsonObject.getInt("price"),
+                                    jsonObject.getString("name"),
+                                    jsonObject.getString("des"),
+                                    jsonObject.getString("image")));
+                        }
+
+                        famousAdapter = new FamousAdapter(famous_model, getActivity());
+                        famous_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                        famous_recyclerView.setAdapter(famousAdapter);
+
+                    } else {
+                        String error_msg = jObj.getString("error_msg");
+                        Toast.makeText(getContext(), error_msg, Toast.LENGTH_SHORT).show();
+                        famous_title.setVisibility(View.INVISIBLE);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "Volley Error: " + error.getMessage());
+                        Toast.makeText(getContext(), "error of volley" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
+    }
+
+
+    //Deals
+    private void get_deals() {
+        String tag_str_req = "req_get_deals";
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_DEALS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "1st Response:" + response);
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.e("second response:", response);
+                    boolean error = jObj.getBoolean("error");
+                    //check for error node in json
+                    if (!error) {
+                        JSONArray array = jObj.getJSONArray("deals");
+                        for (int i = 0; i < array.length(); i++) {
+
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            famous_model.add(new ProductModel(jsonObject.getInt("id"),
+                                    jsonObject.getInt("price"),
+                                    jsonObject.getString("name"),
+                                    jsonObject.getString("des"),
+                                    jsonObject.getString("image")));
+                        }
+
+                        dealAdapter = new DealAdapter(deal_model, getActivity());
+                        deal_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                        deal_recyclerView.setAdapter(dealAdapter);
+
+                    } else {
+                        String error_msg = jObj.getString("error_msg");
+                        Toast.makeText(getContext(), error_msg, Toast.LENGTH_SHORT).show();
+                        deal_title.setVisibility(View.INVISIBLE);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "Volley Error: " + error.getMessage());
+                        Toast.makeText(getContext(), "error of volley" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
+    }
+
 }
