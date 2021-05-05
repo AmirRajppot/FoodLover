@@ -10,6 +10,7 @@ public class AppConfig {
     public static final String GET_DEALS = BASE_URL + "get_deals.php";
     public static final String GET_PROFILE = BASE_URL + "get_profile.php";
     public static final String GET_PRODUCTS = BASE_URL + "get_products.php";
+    public static final String GET_WISH_LIST = BASE_URL + "get_wishlist.php";
 
 
 }
