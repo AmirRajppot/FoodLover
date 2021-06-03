@@ -14,14 +14,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/category_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="Categories"
-                android:textColor="@color/colorPrimary" />
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="4dp"
+                android:drawableLeft="@drawable/ic_baseline_menu_24"
+                android:drawablePadding="10dp"
+                android:text="Menu"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -43,7 +47,12 @@
                 android:layout_marginStart="5dp"
                 android:layout_weight="70"
                 android:text="Famous Today"
-                android:textColor="@color/colorPrimary" />
+                android:drawablePadding="10dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="4dp"
+                android:drawableLeft="@drawable/ic_baseline_favorite_24"
+                android:textColor="@color/black"
+                 />
 
             <View
                 android:layout_width="0dp"
@@ -69,11 +78,15 @@
             <TextView
                 android:id="@+id/deal_title"
                 android:layout_width="0dp"
+                android:drawableLeft="@drawable/ic_baseline_view_list_24"
                 android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
                 android:layout_marginStart="5dp"
                 android:layout_weight="70"
                 android:text="Deals"
-                android:textColor="@color/colorPrimary" />
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="4dp"
+                android:textColor="@color/black" />
 
             <View
                 android:layout_width="0dp"

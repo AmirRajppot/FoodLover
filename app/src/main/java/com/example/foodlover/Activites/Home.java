@@ -4,9 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.foodlover.Fragments.Account;
 import com.example.foodlover.Fragments.Cart;
@@ -49,6 +53,7 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        check_connection();
 
         navView = findViewById(R.id.bottom_nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -86,4 +91,21 @@ public class Home extends AppCompatActivity {
         return false;
     }
 
+    ///internet
+    public void check_connection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (null != networkInfo) {
+            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                Toast.makeText(this, "Wifi Enabled", Toast.LENGTH_LONG).show();
+            } else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                Toast.makeText(this, "Data Network Enabled", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+
+        }
+
+    }
 }

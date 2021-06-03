@@ -1,17 +1,16 @@
 package com.example.foodlover.Models;
 
-import java.util.ArrayList;
+public class CartModel {
+    int id, price;
+    int qty = 1;
+    String img, name;
 
-public class DealModel {
-    int id,  price;
-    String name,img, des;
-
-    public DealModel(int id, int price, String name, String img, String des) {
+    public CartModel(int id, int price, int qty, String img, String name) {
         this.id = id;
         this.price = price;
-        this.name = name;
+        this.qty = qty;
         this.img = img;
-        this.des = des;
+        this.name = name;
     }
 
     public int getId() {
@@ -30,12 +29,12 @@ public class DealModel {
         this.price = price;
     }
 
-    public String getName() {
-        return name;
+    public int getQty() {
+        return qty;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 
     public String getImg() {
@@ -46,11 +45,11 @@ public class DealModel {
         this.img = img;
     }
 
-    public String getDes() {
-        return des;
+    public String getName() {
+        return name;
     }
 
-    public void setDes(String des) {
-        this.des = des;
+    public void setName(String name) {
+        this.name = name;
     }
 }

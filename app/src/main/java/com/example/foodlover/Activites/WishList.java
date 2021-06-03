@@ -55,15 +55,12 @@ public class WishList extends AppCompatActivity {
 //        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
 //        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
 //        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
-        get_wishList();
-        wishListAdapter = new WishListAdapter(wishListModels, WishList.this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(WishList.this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(wishListAdapter);
+        get_wishList(user_id);
     }
 
-    private void get_wishList() {
+    private void get_wishList(final String user_id) {
         String tag_str_req = "req_get_wishList";
-        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_WISH_LIST, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.GET_WISH_LIST + "?user_id=" + user_id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "1st Response:" + response);

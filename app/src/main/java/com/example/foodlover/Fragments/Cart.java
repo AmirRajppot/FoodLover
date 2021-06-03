@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.foodlover.Adapters.CartAdapter;
 import com.example.foodlover.Adapters.CategoryAdapter;
+import com.example.foodlover.Models.CartModel;
 import com.example.foodlover.Models.CategoryModel;
 import com.example.foodlover.Models.ProductModel;
 import com.example.foodlover.R;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class Cart extends Fragment {
     RecyclerView recyclerView;
     CartAdapter cartAdapter;
-    private final ArrayList<ProductModel> cart_model = new ArrayList<>();
+    private final ArrayList<CartModel> cart_model = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.foodlover.HelperClass.AppConfig;
 import com.example.foodlover.Models.CategoryModel;
 import com.example.foodlover.Models.ProductModel;
 import com.example.foodlover.R;
@@ -35,7 +36,7 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolders holder, int position) {
-        Glide.with(ctx).load(data.get(position).getImg()).into(holder.img);
+        Glide.with(ctx).load(AppConfig.IMAGE_URL+data.get(position).getImg()).into(holder.img);
         holder.name.setText(data.get(position).getName());
         holder.price.setText(String.valueOf(data.get(position).getPrice()) + "PKR");
         holder.des.setText(data.get(position).getDescription());

@@ -50,7 +50,6 @@ public class HomeFragment extends Fragment {
     String user_id;
     SharedPreferences preferences;
     private final ArrayList<ProductModel> famous_model = new ArrayList<>();
-    private final ArrayList<DealModel> deal_model = new ArrayList<>();
     private final ArrayList<CategoryModel> categoryModels = new ArrayList<>();
 
     public HomeFragment() {
@@ -72,29 +71,9 @@ public class HomeFragment extends Fragment {
         preferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         user_id = preferences.getString("id", "");
 
-        //deal
-//        deal_model.add(new DealModel(1, R.drawable.lisa, 1220, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-//        deal_model.add(new DealModel(1, R.drawable.pexcels, 1220, "Burger", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-//        deal_model.add(new DealModel(1, R.drawable.pizza, 1220, "Pizza", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-//        deal_model.add(new DealModel(1, R.drawable.lisa, 1220, "Macrooni", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-
-        get_deals();
-
-        //famous
         get_famous();
-//        famous_model.add(new ProductModel(1, 1220, R.drawable.salad, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-//        famous_model.add(new ProductModel(1, 1220, R.drawable.pizza, "Pixel", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-//        famous_model.add(new ProductModel(1, 1220, R.drawable.lisa, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-//        famous_model.add(new ProductModel(1, 1220, R.drawable.pexcels, "Pasta", "If you also have adequate knowledge about Different Mouth watering Foods and its materials that come with a different taste and regions."));
-
-        //menu
-//        categoryModels.add(new CategoryModel(1, R.drawable.salad, "Pizza"));
-//        categoryModels.add(new CategoryModel(2, R.drawable.lisa, "Pizza"));
-//        categoryModels.add(new CategoryModel(3, R.drawable.pexcels, "Pizza"));
-//        categoryModels.add(new CategoryModel(4, R.drawable.pizza, "Pizza"));
-//        categoryModels.add(new CategoryModel(5, R.drawable.pexcels, "Pizza"));
         get_menu();
-
+        get_deals();
         return view;
     }
 
@@ -111,13 +90,13 @@ public class HomeFragment extends Fragment {
                     boolean error = jObj.getBoolean("error");
                     //check for error node in json
                     if (!error) {
-                        JSONArray array = jObj.getJSONArray("menu");
+                        JSONArray array = jObj.getJSONArray("menu_items");
                         for (int i = 0; i < array.length(); i++) {
 
                             JSONObject jsonObject = array.getJSONObject(i);
                             categoryModels.add(new CategoryModel(jsonObject.getInt("id"),
-                                    jsonObject.getString("name"),
-                                    jsonObject.getString("image")));
+                                    jsonObject.getString("image"),
+                                    jsonObject.getString("name")));
                         }
 
                         categoryAdapter = new CategoryAdapter(categoryModels, getActivity());
@@ -127,7 +106,7 @@ public class HomeFragment extends Fragment {
                     } else {
                         String error_msg = jObj.getString("error_msg");
                         Toast.makeText(getContext(), error_msg, Toast.LENGTH_SHORT).show();
-                        category_title.setVisibility(View.INVISIBLE);
+                        category_title.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -173,7 +152,6 @@ public class HomeFragment extends Fragment {
                                     jsonObject.getString("des"),
                                     jsonObject.getString("image")));
                         }
-
                         famousAdapter = new FamousAdapter(famous_model, getActivity());
                         famous_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                         famous_recyclerView.setAdapter(famousAdapter);
@@ -204,42 +182,38 @@ public class HomeFragment extends Fragment {
         AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
     }
 
-
-    //Deals
+    // DEALs
     private void get_deals() {
         String tag_str_req = "req_get_deals";
-        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_DEALS, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_DEALS , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "1st Response:" + response);
                 try {
                     JSONObject jObj = new JSONObject(response);
-                    Log.e("second response:", response);
+                    Log.e("Deal second response:", response);
                     boolean error = jObj.getBoolean("error");
                     //check for error node in json
                     if (!error) {
-                        JSONArray array = jObj.getJSONArray("deals");
+                        JSONArray array = jObj.getJSONArray("deal");
+                        ArrayList<DealModel> deal_model = new ArrayList<>();
                         for (int i = 0; i < array.length(); i++) {
+                            //Toast.makeText(getContext(), , Toast.LENGTH_SHORT).show();
 
-                            JSONObject jsonObject = array.getJSONObject(i);
-                            famous_model.add(new ProductModel(jsonObject.getInt("id"),
-                                    jsonObject.getInt("price"),
-                                    jsonObject.getString("name"),
-                                    jsonObject.getString("des"),
-                                    jsonObject.getString("image")));
+                            deal_model.add(new DealModel(array.getJSONObject(i).getInt("id"), array.getJSONObject(i).getInt("price"), array.getJSONObject(i).getString("name"), array.getJSONObject(i).getString("image"), array.getJSONObject(i).getString("des")));
                         }
-
-                        dealAdapter = new DealAdapter(deal_model, getActivity());
-                        deal_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                        deal_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                        dealAdapter = new DealAdapter(deal_model, getContext());
                         deal_recyclerView.setAdapter(dealAdapter);
 
                     } else {
                         String error_msg = jObj.getString("error_msg");
                         Toast.makeText(getContext(), error_msg, Toast.LENGTH_SHORT).show();
-                        deal_title.setVisibility(View.INVISIBLE);
+                        deal_title.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         },
@@ -250,9 +224,9 @@ public class HomeFragment extends Fragment {
                         Toast.makeText(getContext(), "error of volley" + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
+
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
                 return params;
             }
         };
