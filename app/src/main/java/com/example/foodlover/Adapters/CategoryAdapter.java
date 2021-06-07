@@ -41,7 +41,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolders holder, int position) {
 
-        Glide.with(ctx).load(AppConfig.IMAGE_URL+data.get(position).getImg()).into(holder.img);
+        Glide.with(ctx).load(AppConfig.IMAGE_URL + data.get(position).getImg()).into(holder.img);
         holder.name.setText(data.get(position).getName());
     }
 
@@ -63,6 +63,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(ctx, Product.class);
+                    intent.putExtra("menu_id", data.get(getAdapterPosition()).getId());
                     ctx.startActivity(intent);
                 }
             });

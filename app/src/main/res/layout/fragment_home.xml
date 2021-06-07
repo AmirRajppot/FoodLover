@@ -3,12 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:blurkit="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.HomeFragment">
 
-    <LinearLayout
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+<!--        <io.alterac.blurkit.BlurLayout-->
+<!--            android:id="@+id/blurLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            blurkit:blk_blurRadius="3"-->
+<!--            blurkit:blk_fps="0"-->
+<!--            blurkit:blk_downscaleFactor="0.25"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="4dp"
-                android:drawableLeft="@drawable/ic_baseline_menu_24"
                 android:drawablePadding="10dp"
                 android:text="Menu"
                 android:textColor="@color/black"
@@ -48,9 +64,9 @@
                 android:layout_weight="70"
                 android:text="Famous Today"
                 android:drawablePadding="10dp"
+                android:textSize="18sp"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="4dp"
-                android:drawableLeft="@drawable/ic_baseline_favorite_24"
                 android:textColor="@color/black"
                  />
 
@@ -78,12 +94,12 @@
             <TextView
                 android:id="@+id/deal_title"
                 android:layout_width="0dp"
-                android:drawableLeft="@drawable/ic_baseline_view_list_24"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
                 android:layout_marginStart="5dp"
                 android:layout_weight="70"
                 android:text="Deals"
+                android:textSize="18sp"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="4dp"
                 android:textColor="@color/black" />
@@ -101,6 +117,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
-
-    </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </ScrollView>

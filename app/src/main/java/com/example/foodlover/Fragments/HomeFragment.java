@@ -2,6 +2,7 @@ package com.example.foodlover.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.alterac.blurkit.BlurKit;
+import io.alterac.blurkit.BlurLayout;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
@@ -47,8 +52,9 @@ public class HomeFragment extends Fragment {
     CategoryAdapter categoryAdapter;
     FamousAdapter famousAdapter;
     DealAdapter dealAdapter;
-    String user_id;
+    String user_id, menu_id_str;
     SharedPreferences preferences;
+    BlurLayout blurLayout;
     private final ArrayList<ProductModel> famous_model = new ArrayList<>();
     private final ArrayList<CategoryModel> categoryModels = new ArrayList<>();
 
@@ -67,6 +73,19 @@ public class HomeFragment extends Fragment {
         famous_title = view.findViewById(R.id.famous_title);
         deal_title = view.findViewById(R.id.deal_title);
         deal_recyclerView = view.findViewById(R.id.deal_rv);
+//        blurLayout = view.findViewById(R.id.blurLayout);
+
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+//            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//        }
+//        else {
+//            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        }
+
 
         preferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         user_id = preferences.getString("id", "");
@@ -74,6 +93,8 @@ public class HomeFragment extends Fragment {
         get_famous();
         get_menu();
         get_deals();
+
+
         return view;
     }
 
@@ -95,10 +116,10 @@ public class HomeFragment extends Fragment {
 
                             JSONObject jsonObject = array.getJSONObject(i);
                             categoryModels.add(new CategoryModel(jsonObject.getInt("id"),
-                                    jsonObject.getString("image"),
+                                    jsonObject.getString("image").replace("~/Images", ""),
                                     jsonObject.getString("name")));
                         }
-
+                        menu_id_str = String.valueOf(array.getJSONObject(0).getInt("id"));
                         categoryAdapter = new CategoryAdapter(categoryModels, getActivity());
                         category_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                         category_recyclerView.setAdapter(categoryAdapter);
@@ -150,7 +171,7 @@ public class HomeFragment extends Fragment {
                                     jsonObject.getInt("price"),
                                     jsonObject.getString("name"),
                                     jsonObject.getString("des"),
-                                    jsonObject.getString("image")));
+                                    jsonObject.getString("image").replace("~/Images", "")));
                         }
                         famousAdapter = new FamousAdapter(famous_model, getActivity());
                         famous_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -185,7 +206,7 @@ public class HomeFragment extends Fragment {
     // DEALs
     private void get_deals() {
         String tag_str_req = "req_get_deals";
-        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_DEALS , new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_DEALS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "1st Response:" + response);
@@ -200,9 +221,9 @@ public class HomeFragment extends Fragment {
                         for (int i = 0; i < array.length(); i++) {
                             //Toast.makeText(getContext(), , Toast.LENGTH_SHORT).show();
 
-                            deal_model.add(new DealModel(array.getJSONObject(i).getInt("id"), array.getJSONObject(i).getInt("price"), array.getJSONObject(i).getString("name"), array.getJSONObject(i).getString("image"), array.getJSONObject(i).getString("des")));
+                            deal_model.add(new DealModel(array.getJSONObject(i).getInt("id"), array.getJSONObject(i).getInt("price"), array.getJSONObject(i).getString("name"), array.getJSONObject(i).getString("image").replace("~/Images", ""), array.getJSONObject(i).getString("des")));
                         }
-                        deal_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                        deal_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                         dealAdapter = new DealAdapter(deal_model, getContext());
                         deal_recyclerView.setAdapter(dealAdapter);
 

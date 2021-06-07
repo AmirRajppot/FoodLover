@@ -24,8 +24,8 @@
             android:name=".Activites.Product"
             android:label="Product" />
         <activity
-            android:name=".Activites.Login"
-            android:label="Login" />
+            android:name=".Activites.Home"
+            android:label="Home" />
         <activity
             android:name=".Activites.Profile"
             android:label="Profile" />
@@ -36,9 +36,9 @@
             android:name=".Activites.SignUp"
             android:label="SignUp" />
         <activity
-            android:name=".Activites.Splash"
-            android:label="Home" />
-        <activity android:name=".Activites.Home">
+            android:name=".Activites.Login"
+            android:label="Login" />
+        <activity android:name=".Activites.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

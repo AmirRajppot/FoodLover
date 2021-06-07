@@ -45,7 +45,7 @@
                     android:weightSum="100">
 
                     <TextView
-                        android:id="@+id/famous_name"
+                        android:id="@+id/product_name"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="50"
@@ -54,7 +54,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/famous_price"
+                        android:id="@+id/product_price"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_marginVertical="5dp"
@@ -84,18 +84,18 @@
 
 
         <ImageView
-            android:id="@+id/famous_btn_wishlist"
+            android:id="@+id/product_btn_wishlist"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_marginBottom="5dp"
-            android:layout_toStartOf="@+id/famous_btn_plus"
+            android:layout_toStartOf="@+id/product_btn_plus"
             android:elevation="10dp"
             android:src="@drawable/ic_baseline_favorite_border_24" />
 
         <ImageView
-            android:id="@+id/famous_btn_plus"
+            android:id="@+id/product_btn_plus"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
@@ -107,7 +107,7 @@
             android:src="@drawable/ic_baseline_shopping_cart_24" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/famous_img"
+            android:id="@+id/product_img"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"

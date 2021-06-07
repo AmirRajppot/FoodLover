@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="100"
+
     tools:context=".Activites.Home">
+
+<!--    <io.alterac.blurkit.BlurLayout-->
+<!--        android:id="@+id/blurLayout_home"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        app:blk_blurRadius="3"-->
+<!--        app:blk_fps="0"-->
+<!--        app:blk_downscaleFactor="0.25"/>-->
 
     <FrameLayout
 
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="90" />
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/bottom_nav_view"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
 
         android:id="@+id/bottom_nav_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_weight="10"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/nav_background"
         app:menu="@menu/menu" />
-</LinearLayout>
+</RelativeLayout>

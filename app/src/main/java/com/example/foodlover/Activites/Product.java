@@ -1,44 +1,125 @@
 package com.example.foodlover.Activites;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Color;
+
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.foodlover.Adapters.ProductAdapter;
+import com.example.foodlover.HelperClass.AppConfig;
+import com.example.foodlover.HelperClass.AppController;
+import com.example.foodlover.Models.ProductModel;
 import com.example.foodlover.R;
-import com.ramotion.paperonboarding.PaperOnboardingFragment;
-import com.ramotion.paperonboarding.PaperOnboardingPage;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Product extends AppCompatActivity {
     private FragmentManager fragmentManager;
+    String menu_Id;
+    RecyclerView product_rv;
+    ProductAdapter productAdapter;
+    private final ArrayList<ProductModel> productModels = new ArrayList<>();
+    private static final String TAG = Login.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-        fragmentManager = getSupportFragmentManager();
-        final PaperOnboardingFragment paperOnboardingFragment = new PaperOnboardingFragment().newInstance(getDataForOnBoarding());
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.product_activity, paperOnboardingFragment);
-        fragmentTransaction.commit();
+        menu_Id = getIntent().getStringExtra("menu_id");
+        get_products(menu_Id);
+        product_rv = findViewById(R.id.product_rv);
+//
+//        fragmentManager = getSupportFragmentManager();
+//        final PaperOnboardingFragment paperOnboardingFragment = new PaperOnboardingFragment().newInstance(getDataForOnBoarding());
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.add(R.id.product_activity, paperOnboardingFragment);
+//        fragmentTransaction.commit();
     }
 
-    private ArrayList<PaperOnboardingPage> getDataForOnBoarding() {
-        PaperOnboardingPage page = new PaperOnboardingPage("Burger", "Food substance consisting essentially of protein carbohydrate fat, and other nutrients used in the body of an organism to sustain growth and vital",
-                Color.parseColor("#ffb174"), R.drawable.salad, R.drawable.food);
-        PaperOnboardingPage page2 = new PaperOnboardingPage("Burger", "Food substance consisting essentially of protein carbohydrate fat, and other nutrients used in the body of an organism to sustain growth and vital",
-                Color.parseColor("#ffb174"), R.drawable.salad, R.drawable.food);
-        PaperOnboardingPage page3 = new PaperOnboardingPage("Burger", "Food substance consisting essentially of protein carbohydrate fat, and other nutrients used in the body of an organism to sustain growth and vital",
-                Color.parseColor("#ffb174"), R.drawable.salad, R.drawable.food);
-        ArrayList<PaperOnboardingPage> elements = new ArrayList<>();
-        elements.add(page);
-        elements.add(page2);
-        elements.add(page3);
-        return elements;
+
+    private void get_products(String menu_id) {
+        String tag_str_req = "req_get_product";
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_PRODUCTS + "?Menu_Id=" + menu_id, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "1st Response:" + response);
+                Log.e("api", AppConfig.GET_PRODUCTS + "?Menu_Id=" + menu_id);
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.e("Deal second response:", response);
+                    boolean error = jObj.getBoolean("error");
+                    //check for error node in json
+                    if (!error) {
+                        JSONArray array = jObj.getJSONArray("product");
+                        productModels.clear();
+                        for (int i = 0; i < array.length(); i++) {
+
+                            productModels.add(new ProductModel(array.getJSONObject(i).getInt("id"),
+                                    array.getJSONObject(i).getInt("price"),
+                                    array.getJSONObject(i).getString("des"),
+                                    array.getJSONObject(i).getString("image").replace("~/Images", ""),
+                                    array.getJSONObject(i).getString("name")));
+
+//                            product_id_str = String.valueOf(array.getJSONObject(i).getInt("id"));
+                        }
+
+
+                        productAdapter = new ProductAdapter(productModels, Product.this);
+                        product_rv.setLayoutManager(new GridLayoutManager(Product.this, 3, GridLayoutManager.VERTICAL, false));
+                        product_rv.setAdapter(productAdapter);
+
+                    } else {
+                        String error_msg = jObj.getString("error_msg");
+                        Toast.makeText(Product.this, error_msg, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(Product.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "Volley Error: " + error.getMessage());
+                        Toast.makeText(Product.this, "error of volley" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
     }
+
+//    private ArrayList<PaperOnboardingPage> getDataForOnBoarding() {
+//        PaperOnboardingPage page = new PaperOnboardingPage("Burger", "Food substance consisting essentially of protein carbohydrate fat, and other nutrients used in the body of an organism to sustain growth and vital",
+//                Color.parseColor("#ffb174"), R.drawable.salad, R.drawable.food);
+//        PaperOnboardingPage page2 = new PaperOnboardingPage("Burger", "Food substance consisting essentially of protein carbohydrate fat, and other nutrients used in the body of an organism to sustain growth and vital",
+//                Color.parseColor("#ffb174"), R.drawable.salad, R.drawable.food);
+//        PaperOnboardingPage page3 = new PaperOnboardingPage("Burger", "Food substance consisting essentially of protein carbohydrate fat, and other nutrients used in the body of an organism to sustain growth and vital",
+//                Color.parseColor("#ffb174"), R.drawable.salad, R.drawable.food);
+//        ArrayList<PaperOnboardingPage> elements = new ArrayList<>();
+//        elements.add(page);
+//        elements.add(page2);
+//        elements.add(page3);
+//        return elements;
+//    }
 }

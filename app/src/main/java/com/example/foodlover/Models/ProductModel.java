@@ -4,6 +4,13 @@ public class ProductModel {
     int Id,Price,is_famous;
     String Name,description,quantity,Img;
 
+    public ProductModel(int id, int price, String name, String img) {
+        Id = id;
+        Price = price;
+        Name = name;
+        Img = img;
+    }
+
     public ProductModel(int id, int price, String name, String description, String img) {
         Id = id;
         Price = price;

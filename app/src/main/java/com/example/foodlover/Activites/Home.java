@@ -7,9 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.foodlover.Fragments.Account;
@@ -18,6 +21,8 @@ import com.example.foodlover.Fragments.HomeFragment;
 import com.example.foodlover.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import io.alterac.blurkit.BlurLayout;
+
 public class Home extends AppCompatActivity {
     private Fragment homeFragment = new HomeFragment();
     //    private Fragment categoriesFragment = new CategoriesFragment();
@@ -25,6 +30,7 @@ public class Home extends AppCompatActivity {
     private Fragment cartFragment = new Cart();
     private Fragment accountFragment = new Account();
     private static BottomNavigationView navView;
+    BlurLayout blurLayout;
     private Fragment active = homeFragment;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,6 +61,16 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         check_connection();
 
+//        blurLayout.findViewById(R.id.blurLayout_home);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//        }
+//        else {
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        }
         navView = findViewById(R.id.bottom_nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment, "home").commit();

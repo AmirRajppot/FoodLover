@@ -1,8 +1,8 @@
 package com.example.foodlover.HelperClass;
 
 public class AppConfig {
-    public static final String BASE_URL = "http://foodlover.codembeded.com/mobile_api/";
-    public static final String IMAGE_URL = "http://foodlover.codembeded.com/images/";
+    public static final String BASE_URL = "https://foodlover.codembeded.com/mobile_api/";
+    public static final String IMAGE_URL = "https://foodlover.codembeded.com/images/";
 
     public static final String GET_SIGN_UP = BASE_URL + "SignUp.php";
     public static final String GET_LOGIN = BASE_URL + "login.php";

@@ -39,7 +39,7 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
         Glide.with(ctx).load(AppConfig.IMAGE_URL+data.get(position).getImg()).into(holder.img);
         holder.name.setText(data.get(position).getName());
         holder.price.setText(String.valueOf(data.get(position).getPrice()) + "PKR");
-        holder.des.setText(data.get(position).getDescription());
+//        holder.des.setText(data.get(position).getDescription());
 
     }
 
@@ -57,7 +57,7 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
             img = itemView.findViewById(R.id.famous_img);
             name = itemView.findViewById(R.id.famous_name);
             price = itemView.findViewById(R.id.famous_price);
-            des = itemView.findViewById(R.id.famous_description);
+//            des = itemView.findViewById(R.id.famous_description);
         }
     }
 }
