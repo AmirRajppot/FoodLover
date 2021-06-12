@@ -82,9 +82,19 @@
             </RelativeLayout>
         </RelativeLayout>
 
-
         <ImageView
-            android:id="@+id/famous_btn_wishlist"
+            android:id="@+id/famous_btn_wishlist_dark"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="5dp"
+            android:layout_toStartOf="@+id/famous_btn_plus"
+            android:elevation="10dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_baseline_favorite_24" />
+        <ImageView
+            android:id="@+id/famous_btn_wishlist_light"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentBottom="true"

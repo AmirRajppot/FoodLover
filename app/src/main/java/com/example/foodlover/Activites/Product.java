@@ -30,7 +30,8 @@ import java.util.Map;
 
 public class Product extends AppCompatActivity {
     private FragmentManager fragmentManager;
-    String menu_Id;
+    int menu_Id;
+    String product_id_str;
     RecyclerView product_rv;
     ProductAdapter productAdapter;
     private final ArrayList<ProductModel> productModels = new ArrayList<>();
@@ -40,8 +41,9 @@ public class Product extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-        menu_Id = getIntent().getStringExtra("menu_id");
-        get_products(menu_Id);
+        Bundle bundle = getIntent().getExtras();
+        menu_Id = bundle.getInt("menu_id");
+        get_products(String.valueOf(menu_Id));
         product_rv = findViewById(R.id.product_rv);
 //
 //        fragmentManager = getSupportFragmentManager();
@@ -71,16 +73,17 @@ public class Product extends AppCompatActivity {
 
                             productModels.add(new ProductModel(array.getJSONObject(i).getInt("id"),
                                     array.getJSONObject(i).getInt("price"),
+                                    array.getJSONObject(i).getString("name"),
                                     array.getJSONObject(i).getString("des"),
-                                    array.getJSONObject(i).getString("image").replace("~/Images", ""),
-                                    array.getJSONObject(i).getString("name")));
+                                    array.getJSONObject(i).getString("image").replace("~/images", "")
+                                    ));
 
-//                            product_id_str = String.valueOf(array.getJSONObject(i).getInt("id"));
+                            product_id_str = String.valueOf(array.getJSONObject(i).getInt("id"));
                         }
 
 
                         productAdapter = new ProductAdapter(productModels, Product.this);
-                        product_rv.setLayoutManager(new GridLayoutManager(Product.this, 3, GridLayoutManager.VERTICAL, false));
+                        product_rv.setLayoutManager(new GridLayoutManager(Product.this, 2, GridLayoutManager.VERTICAL, false));
                         product_rv.setAdapter(productAdapter);
 
                     } else {
@@ -108,18 +111,4 @@ public class Product extends AppCompatActivity {
         };
         AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
     }
-
-//    private ArrayList<PaperOnboardingPage> getDataForOnBoarding() {
-//        PaperOnboardingPage page = new PaperOnboardingPage("Burger", "Food substance consisting essentially of protein carbohydrate fat, and other nutrients used in the body of an organism to sustain growth and vital",
-//                Color.parseColor("#ffb174"), R.drawable.salad, R.drawable.food);
-//        PaperOnboardingPage page2 = new PaperOnboardingPage("Burger", "Food substance consisting essentially of protein carbohydrate fat, and other nutrients used in the body of an organism to sustain growth and vital",
-//                Color.parseColor("#ffb174"), R.drawable.salad, R.drawable.food);
-//        PaperOnboardingPage page3 = new PaperOnboardingPage("Burger", "Food substance consisting essentially of protein carbohydrate fat, and other nutrients used in the body of an organism to sustain growth and vital",
-//                Color.parseColor("#ffb174"), R.drawable.salad, R.drawable.food);
-//        ArrayList<PaperOnboardingPage> elements = new ArrayList<>();
-//        elements.add(page);
-//        elements.add(page2);
-//        elements.add(page3);
-//        return elements;
-//    }
 }

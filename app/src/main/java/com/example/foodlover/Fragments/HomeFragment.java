@@ -54,39 +54,23 @@ public class HomeFragment extends Fragment {
     DealAdapter dealAdapter;
     String user_id, menu_id_str;
     SharedPreferences preferences;
-    BlurLayout blurLayout;
     private final ArrayList<ProductModel> famous_model = new ArrayList<>();
     private final ArrayList<CategoryModel> categoryModels = new ArrayList<>();
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
         category_recyclerView = view.findViewById(R.id.category_rv);
         famous_recyclerView = view.findViewById(R.id.famous_rv);
         category_title = view.findViewById(R.id.category_title);
         famous_title = view.findViewById(R.id.famous_title);
         deal_title = view.findViewById(R.id.deal_title);
         deal_recyclerView = view.findViewById(R.id.deal_rv);
-//        blurLayout = view.findViewById(R.id.blurLayout);
-
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        }
-//        else {
-//            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        }
-
-
         preferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         user_id = preferences.getString("id", "");
 
@@ -116,7 +100,7 @@ public class HomeFragment extends Fragment {
 
                             JSONObject jsonObject = array.getJSONObject(i);
                             categoryModels.add(new CategoryModel(jsonObject.getInt("id"),
-                                    jsonObject.getString("image").replace("~/Images", ""),
+                                    jsonObject.getString("image").replace("~/images", ""),
                                     jsonObject.getString("name")));
                         }
                         menu_id_str = String.valueOf(array.getJSONObject(0).getInt("id"));
@@ -171,7 +155,7 @@ public class HomeFragment extends Fragment {
                                     jsonObject.getInt("price"),
                                     jsonObject.getString("name"),
                                     jsonObject.getString("des"),
-                                    jsonObject.getString("image").replace("~/Images", "")));
+                                    jsonObject.getString("image").replace("~/images", "")));
                         }
                         famousAdapter = new FamousAdapter(famous_model, getActivity());
                         famous_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -221,7 +205,7 @@ public class HomeFragment extends Fragment {
                         for (int i = 0; i < array.length(); i++) {
                             //Toast.makeText(getContext(), , Toast.LENGTH_SHORT).show();
 
-                            deal_model.add(new DealModel(array.getJSONObject(i).getInt("id"), array.getJSONObject(i).getInt("price"), array.getJSONObject(i).getString("name"), array.getJSONObject(i).getString("image").replace("~/Images", ""), array.getJSONObject(i).getString("des")));
+                            deal_model.add(new DealModel(array.getJSONObject(i).getInt("id"), array.getJSONObject(i).getInt("price"), array.getJSONObject(i).getString("name"), array.getJSONObject(i).getString("image").replace("~/images", ""), array.getJSONObject(i).getString("des")));
                         }
                         deal_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                         dealAdapter = new DealAdapter(deal_model, getContext());

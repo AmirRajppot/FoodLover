@@ -118,7 +118,7 @@ public class Login extends AppCompatActivity {
                         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("id", jObj.getString("id"));
-                        editor.commit();
+                        editor.apply();
                         phone_et.setText("");
                         password_et.setText("");
                         Intent intent = new Intent(Login.this, Home.class);

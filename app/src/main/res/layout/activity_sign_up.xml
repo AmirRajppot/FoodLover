@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/view"
                     android:layout_marginHorizontal="16dp"
-                    android:hint="Contact"
+                    android:hint="03xxxxxxxxxx"
                     app:boxCornerRadiusBottomEnd="20dp"
                     app:boxCornerRadiusBottomStart="20dp"
                     app:boxCornerRadiusTopEnd="20dp"
@@ -95,7 +95,7 @@
                         android:drawablePadding="5dp"
                         android:inputType="phone"
                         android:maxLength="13"
-                        android:maxLines="1"
+                        android:maxLines="11"
                         android:padding="10dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 

@@ -40,7 +40,7 @@ public class WishList extends AppCompatActivity {
     RecyclerView recyclerView;
     WishListAdapter wishListAdapter;
     ArrayList<WishListModel> wishListModels = new ArrayList<>();
-    String user_id;
+    String user_id, product_id_str;
     SharedPreferences preferences;
 
     @Override
@@ -49,18 +49,19 @@ public class WishList extends AppCompatActivity {
         setContentView(R.layout.activity_wish_list);
         recyclerView = findViewById(R.id.wish_list_rv);
         preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
         user_id = preferences.getString("id", "");
-//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
-//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
-//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
-//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
-//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
         get_wishList(user_id);
+//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
+//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
+//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
+//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
+//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
     }
 
-    private void get_wishList(final String user_id) {
+    private void get_wishList(final String user_id_str) {
         String tag_str_req = "req_get_wishList";
-        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.GET_WISH_LIST + "?user_id=" + user_id, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_WISH_LIST + "?user_id=" + user_id_str, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "1st Response:" + response);
@@ -70,14 +71,14 @@ public class WishList extends AppCompatActivity {
                     boolean error = jObj.getBoolean("error");
                     //check for error node in json
                     if (!error) {
-                        JSONArray array = jObj.getJSONArray("menu");
+                        JSONArray array = jObj.getJSONArray("wish_list");
                         for (int i = 0; i < array.length(); i++) {
 
                             JSONObject jsonObject = array.getJSONObject(i);
                             wishListModels.add(new WishListModel(jsonObject.getInt("id"),
                                     jsonObject.getInt("price"),
                                     jsonObject.getString("product_name"),
-                                    jsonObject.getString("Img")));
+                                    jsonObject.getString("img").replace("~/images", "")));
                         }
 
                         wishListAdapter = new WishListAdapter(wishListModels, WishList.this);
@@ -86,11 +87,13 @@ public class WishList extends AppCompatActivity {
 
                     } else {
                         String error_msg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(), error_msg, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WishList.this, error_msg, Toast.LENGTH_SHORT).show();
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(WishList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
                 }
             }
         },
@@ -109,4 +112,6 @@ public class WishList extends AppCompatActivity {
         };
         AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
     }
+
+
 }

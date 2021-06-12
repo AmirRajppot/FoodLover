@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="110dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,18 +44,21 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <ImageView
-                        android:id="@+id/deal_btn_plus"
+<!--                    <ImageView-->
+<!--                        android:id="@+id/deal_btn_plus"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="0.3"-->
+<!--                        android:src="@drawable/ic_baseline_favorite_border_24"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textStyle="bold" />-->
+                    <Space
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:src="@drawable/ic_baseline_favorite_border_24"
-                        android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
+                        android:layout_weight="0.4"/>
                     <ImageView
-                        android:id="@+id/deal_btn_wishlist"
+                        android:id="@+id/deal_btn_plus"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
@@ -64,10 +67,7 @@
                         android:textColor="@color/white"
                         android:textStyle="bold" />
 
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"/>
+
 
 
                 </LinearLayout>
