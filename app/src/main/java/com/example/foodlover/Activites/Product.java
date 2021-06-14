@@ -45,12 +45,6 @@ public class Product extends AppCompatActivity {
         menu_Id = bundle.getInt("menu_id");
         get_products(String.valueOf(menu_Id));
         product_rv = findViewById(R.id.product_rv);
-//
-//        fragmentManager = getSupportFragmentManager();
-//        final PaperOnboardingFragment paperOnboardingFragment = new PaperOnboardingFragment().newInstance(getDataForOnBoarding());
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.add(R.id.product_activity, paperOnboardingFragment);
-//        fragmentTransaction.commit();
     }
 
 
