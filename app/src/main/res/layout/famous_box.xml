@@ -66,19 +66,6 @@
 
                 </LinearLayout>
 
-                <!--                <TextView-->
-                <!--                    android:id="@+id/famous_description"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_below="@id/linear_layout"-->
-                <!--                    android:layout_marginHorizontal="8dp"-->
-                <!--                    android:ellipsize="end"-->
-                <!--                    android:padding="2dp"-->
-                <!--                    android:maxLines="2"-->
-                <!--                    android:hint="Description"-->
-                <!--                    android:textColor="@color/black"-->
-                <!--                    android:textSize="14sp" />-->
-
             </RelativeLayout>
         </RelativeLayout>
 
@@ -89,25 +76,39 @@
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_marginBottom="5dp"
-            android:layout_toStartOf="@+id/famous_btn_plus"
+            android:layout_toStartOf="@+id/famous_btn_plus_light"
             android:elevation="10dp"
             android:visibility="gone"
             android:src="@drawable/ic_baseline_favorite_24" />
+
         <ImageView
             android:id="@+id/famous_btn_wishlist_light"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
             android:layout_marginBottom="5dp"
-            android:layout_toStartOf="@+id/famous_btn_plus"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"
             android:elevation="10dp"
             android:src="@drawable/ic_baseline_favorite_border_24" />
 
         <ImageView
-            android:id="@+id/famous_btn_plus"
+            android:id="@+id/famous_btn_plus_light"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="10dp"
+            android:src="@drawable/ic_baseline_add_shopping_cart_24" />
+
+        <ImageView
+            android:id="@+id/famous_btn_plus_dark"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:visibility="gone"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"

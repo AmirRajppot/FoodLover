@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/view"
                     android:layout_marginHorizontal="16dp"
-                    android:hint="03xxxxxxxxxx"
+                    android:hint="03xxxxxxxxx"
                     app:boxCornerRadiusBottomEnd="20dp"
                     app:boxCornerRadiusBottomStart="20dp"
                     app:boxCornerRadiusTopEnd="20dp"

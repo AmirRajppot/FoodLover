@@ -61,7 +61,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolders> {
         holder.price.setText(String.valueOf(data.get(position).getPrice()) + "PKR");
         holder.name.setText(data.get(position).getName());
         holder.des.setText(data.get(position).getDes());
-        holder.btn_add_to_cart.setOnClickListener(new View.OnClickListener() {
+        holder.btn_add_to_cart_light.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deal_id = String.valueOf(data.get(position).getId());
@@ -69,7 +69,24 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolders> {
                 user_id = preferences.getString("id", "");
                 Log.e("onclick", user_id);
 
+                holder.btn_add_to_cart_light.setVisibility(View.GONE);
+                holder.btn_add_to_cart_dark.setVisibility(View.VISIBLE);
                 add_to_deal_cart(user_id, deal_id);
+            }
+
+
+        });
+        holder.btn_add_to_cart_dark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deal_id = String.valueOf(data.get(position).getId());
+                Log.e("onclick", deal_id);
+                user_id = preferences.getString("id", "");
+                Log.e("onclick", user_id);
+
+                holder.btn_add_to_cart_dark.setVisibility(View.GONE);
+                holder.btn_add_to_cart_light.setVisibility(View.VISIBLE);
+                remove_from_cart(user_id, deal_id);
             }
 
 
@@ -92,7 +109,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolders> {
 
                             if (!error) {
 
-                                Toast.makeText(ctx, "Add to wishlist", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ctx, "Add to Cart", Toast.LENGTH_SHORT).show();
 
                             } else {
                                 String error_msg = jObj.getString("error_msg");
@@ -123,6 +140,46 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolders> {
         AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
     }
 
+    private void remove_from_cart(final String user_id_str, final String product_id_str) {
+        String tag_str_req = "req_get_remove";
+
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.REMOVE_FROM_CART, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "1st Response:" + response);
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.e("second response:", response);
+                    boolean error = jObj.getBoolean("error");
+                    //check for error node in json
+                    if (!error) {
+                        Toast.makeText(ctx, "Remove From Cart", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String error_msg = jObj.getString("error_msg");
+                        Toast.makeText(ctx, "Error is " + error_msg, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Volley Error: " + error.getMessage());
+                Toast.makeText(ctx, "error of volley" + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("u_id", user_id_str);
+                params.put("p_id", product_id_str);
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
+    }
 
     @Override
     public int getItemCount() {
@@ -130,7 +187,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolders> {
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
-        ImageView img, btn_add_to_cart;
+        ImageView img, btn_add_to_cart_light, btn_add_to_cart_dark;
         TextView name, price, des;
 
         public ViewHolders(@NonNull View itemView) {
@@ -139,7 +196,8 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolders> {
             name = itemView.findViewById(R.id.deal_name);
             price = itemView.findViewById(R.id.deal_price);
             des = itemView.findViewById(R.id.deal_description);
-            btn_add_to_cart = itemView.findViewById(R.id.deal_btn_plus);
+            btn_add_to_cart_light = itemView.findViewById(R.id.deal_btn_plus_light);
+            btn_add_to_cart_dark = itemView.findViewById(R.id.deal_btn_plus_dark);
         }
     }
 }

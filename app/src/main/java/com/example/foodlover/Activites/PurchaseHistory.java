@@ -49,6 +49,7 @@ public class PurchaseHistory extends AppCompatActivity {
 
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         user_id = preferences.getString("id", "");
+        Log.e("user_id",user_id);
 //        purchaseModels.add(new PurchaseModel(1, 2000, 3, "10/20/2021"));
 //        purchaseModels.add(new PurchaseModel(1, 2000, 4, "10/20/2021"));
 //        purchaseModels.add(new PurchaseModel(1, 2000, 7, "10/20/2021"));
@@ -59,7 +60,7 @@ public class PurchaseHistory extends AppCompatActivity {
 
     private void get_purchase_history(final String user_id) {
         String tag_str_req = "req_get_purchase_history";
-        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.GET_PURCHASE_HISTORY +"?user_id=" + user_id , new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_PURCHASE_HISTORY +"?user_id=" + user_id , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "1st Response:" + response);
@@ -69,12 +70,11 @@ public class PurchaseHistory extends AppCompatActivity {
                     boolean error = jObj.getBoolean("error");
                     //check for error node in json
                     if (!error) {
-                        JSONArray array = jObj.getJSONArray("menu");
+                        JSONArray array = jObj.getJSONArray("purchases");
                         for (int i = 0; i < array.length(); i++) {
 
                             JSONObject jsonObject = array.getJSONObject(i);
                             purchaseModels.add(new PurchaseModel(jsonObject.getInt("id"),
-                                    jsonObject.getInt("id"),
                                     jsonObject.getInt("total"),
                                     jsonObject.getString("order_date")));
                         }
@@ -82,6 +82,7 @@ public class PurchaseHistory extends AppCompatActivity {
                         purchaseAdapter = new PurchaseAdapter(purchaseModels, PurchaseHistory.this);
                         recyclerView.setLayoutManager(new LinearLayoutManager(PurchaseHistory.this, LinearLayoutManager.VERTICAL, false));
                         recyclerView.setAdapter(purchaseAdapter);
+                        purchaseAdapter.notifyDataSetChanged();
 
                     } else {
                         String error_msg = jObj.getString("error_msg");

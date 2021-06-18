@@ -15,8 +15,11 @@ public class AppConfig {
     public static final String GET_WISH_LIST = BASE_URL + "get_wishlist.php";
     public static final String ADD_TO_WISHLIST = BASE_URL + "add_to_wish_list.php";
     public static final String REMOVE_FROM_WISHLIST = BASE_URL + "remove_from_wishlist.php";
+    public static final String REMOVE_FROM_CART = BASE_URL + "remove_from_cart.php";
     public static final String ADD_TO_CART = BASE_URL + "add_to_cart.php";
+    public static final String GET_CART = BASE_URL + "get_cart.php";
     public static final String ADD_TO_DEAL_CART = BASE_URL + "add_to_cart_deal.php";
+    public static final String CONFIRM_ORDER = BASE_URL + "confirm_order.php";
     public static final String GET_PURCHASE_HISTORY = BASE_URL + "get_purchase_history.php";
 
 

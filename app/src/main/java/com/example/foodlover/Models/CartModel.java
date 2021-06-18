@@ -5,6 +5,13 @@ public class CartModel {
     int qty = 1;
     String img, name;
 
+    public CartModel(int id, int price, String img, String name) {
+        this.id = id;
+        this.price = price;
+        this.img = img;
+        this.name = name;
+    }
+
     public CartModel(int id, int price, int qty, String img, String name) {
         this.id = id;
         this.price = price;

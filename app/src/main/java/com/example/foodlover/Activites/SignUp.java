@@ -91,7 +91,7 @@ public class SignUp extends AppCompatActivity {
         if (phone.isEmpty()) {
             phone_et.setError("Field cannot be empty");
             return false;
-        } else if (phone.length() < 13) {
+        } else if (phone.length() < 11) {
             phone_et.setError("Enter 13 digits +92xxxxxxxxx");
             return false;
         } else {

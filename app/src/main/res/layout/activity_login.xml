@@ -61,7 +61,7 @@
                                 android:drawableStart="@drawable/ic_mobile_phone"
                                 android:drawablePadding="5dp"
                                 android:inputType="phone"
-                                android:maxLength="13"
+                                android:maxLength="11"
                                 android:maxLines="1"
                                 android:paddingTop="20dp" />
                         </com.google.android.material.textfield.TextInputLayout>

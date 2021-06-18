@@ -8,9 +8,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cart_rv"
         android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/linear_layout1"
         android:layout_height="wrap_content" />
 
     <LinearLayout
+        android:id="@+id/linear_layout1"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_alignParentBottom="true"
@@ -29,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
                 android:text="Total Amount"
+                android:textColor="@color/colorprimary"
                 android:textAlignment="center" />
 
             <TextView
@@ -39,6 +43,7 @@
                 android:hint="0"
                 android:textAlignment="center"
                 android:textSize="16sp"
+                android:textColor="@color/colorprimary"
                 android:textStyle="bold" />
 
         </LinearLayout>

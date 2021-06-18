@@ -56,7 +56,6 @@ public class WishList extends AppCompatActivity {
 //        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
 //        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
 //        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
-//        wishListModels.add(new WishListModel(1, 200,R.drawable.pizza,"Pizza"));
     }
 
     private void get_wishList(final String user_id_str) {
@@ -84,6 +83,7 @@ public class WishList extends AppCompatActivity {
                         wishListAdapter = new WishListAdapter(wishListModels, WishList.this);
                         recyclerView.setLayoutManager(new LinearLayoutManager(WishList.this, LinearLayoutManager.VERTICAL, false));
                         recyclerView.setAdapter(wishListAdapter);
+                        wishListAdapter.notifyDataSetChanged();
 
                     } else {
                         String error_msg = jObj.getString("error_msg");

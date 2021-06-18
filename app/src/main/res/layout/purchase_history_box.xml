@@ -23,20 +23,19 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/purchase_order_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Id"
+                android:text="Date"
+                android:layout_weight="0.4"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/purchase_price"
+                android:id="@+id/purchase_order_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Price"
+                android:layout_weight="1.6"
+                android:hint="Date"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -49,13 +48,14 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/purchase_order_date"
+                android:id="@+id/purchase_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
-                android:text="Date"
+                android:hint="Price"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/reorder_btn"

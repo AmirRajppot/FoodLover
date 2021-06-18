@@ -1,14 +1,19 @@
 package com.example.foodlover.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodlover.Activites.Home;
+import com.example.foodlover.Activites.Login;
+import com.example.foodlover.Activites.SignUp;
 import com.example.foodlover.Models.CategoryModel;
 import com.example.foodlover.Models.PurchaseModel;
 import com.example.foodlover.Models.PurchaseModel;
@@ -35,9 +40,15 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolders holder, int position) {
-        holder.id.setText(String.valueOf(data.get(position).getOrder_id()));
-        holder.price.setText(String.valueOf(data.get(position).getPrice()));
+        holder.price.setText(String.valueOf(data.get(position).getPrice()) + "PKR");
         holder.date.setText(data.get(position).getDate());
+        holder.btn_reorder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, Home.class);
+              ctx.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -46,13 +57,14 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
-        TextView price, id, date;
+        TextView price, date;
+        Button btn_reorder;
 
         public ViewHolders(@NonNull View itemView) {
             super(itemView);
-            id = itemView.findViewById(R.id.purchase_order_id);
             price = itemView.findViewById(R.id.purchase_price);
             date = itemView.findViewById(R.id.purchase_order_date);
+            btn_reorder = itemView.findViewById(R.id.reorder_btn);
         }
     }
 }

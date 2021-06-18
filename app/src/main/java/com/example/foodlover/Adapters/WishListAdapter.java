@@ -72,10 +72,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
                 product_id = String.valueOf(data.get(position).getId());
                 Log.e(TAG, "onClick: " + product_id);
                 remove_from_wishlist(user_id, product_id);
-                notifyItemChanged(position);
+                data.remove(position);
                 notifyDataSetChanged();
-                Intent intent = new Intent(ctx, WishList.class);
-                ctx.startActivity(intent);            }
+                          }
 
 
         });
@@ -84,7 +83,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
     }
 
     private void remove_from_wishlist(final String user_id_str, final String product_id_str) {
-        String tag_str_req = "req_get_login";
+        String tag_str_req = "req_get_remove";
 
 
         StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.REMOVE_FROM_WISHLIST, new Response.Listener<String>() {

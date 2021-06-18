@@ -80,8 +80,8 @@ public class Login extends AppCompatActivity {
         if (name_et.isEmpty()) {
             phone_et.setError("Field cannot be empty");
             return false;
-        } else if (name_et.length() < 13) {
-            phone_et.setError("Enter 13 digits +92xxxxxxxxx");
+        } else if (name_et.length() < 11) {
+            phone_et.setError("Enter 13 digits 03xxxxxxxxx");
             return false;
         } else {
             phone_et.setError(null);

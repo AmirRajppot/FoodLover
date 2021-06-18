@@ -25,8 +25,6 @@ import io.alterac.blurkit.BlurLayout;
 
 public class Home extends AppCompatActivity {
     private Fragment homeFragment = new HomeFragment();
-    //    private Fragment categoriesFragment = new CategoriesFragment();
-//    private Fragment searchFragment = new SearchFragment();
     private Fragment cartFragment = new Cart();
     private Fragment accountFragment = new Account();
     private static BottomNavigationView navView;
@@ -60,17 +58,6 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         check_connection();
-
-//        blurLayout.findViewById(R.id.blurLayout_home);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        }
-//        else {
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        }
         navView = findViewById(R.id.bottom_nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment, "home").commit();
@@ -83,22 +70,6 @@ public class Home extends AppCompatActivity {
 
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
-
-//            if (fragment != homeFragment) {
-//                cart.setVisibility(View.GONE);
-//                search.setVisibility(View.GONE);
-//            } else {
-//                cart.setVisibility(View.VISIBLE);
-//                search.setVisibility(View.VISIBLE);
-//            }
-
-//        if (fragment == cartFragment){
-//            cartFragment = new CartFragment();
-//            getSupportFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
-//            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,cartFragment,"cart").hide(fragment).commitAllowingStateLoss();
-//            getSupportFragmentManager().beginTransaction().hide(active).show(cartFragment).commitAllowingStateLoss();
-//            active=cartFragment;
-//        }else
             {
                 getSupportFragmentManager().beginTransaction().hide(active).show(fragment).commit();
                 active = fragment;
@@ -113,9 +84,7 @@ public class Home extends AppCompatActivity {
 
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (null != networkInfo) {
-            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                Toast.makeText(this, "Wifi Enabled", Toast.LENGTH_LONG).show();
-            } else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+            if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                 Toast.makeText(this, "Data Network Enabled", Toast.LENGTH_LONG).show();
             }
         } else {

@@ -6,6 +6,12 @@ public class PurchaseModel {
     int Id, Price, Order_id;
     String date;
 
+    public PurchaseModel(int id, int price, String date) {
+        Id = id;
+        Price = price;
+        this.date = date;
+    }
+
     public PurchaseModel(int id, int price, int order_id, String date) {
         Id = id;
         Price = price;

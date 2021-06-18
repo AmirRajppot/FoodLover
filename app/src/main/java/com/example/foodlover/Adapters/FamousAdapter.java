@@ -87,19 +87,35 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
 
 
         });
-        holder.btn_add_to_cart.setOnClickListener(new View.OnClickListener() {
+        holder.btn_add_to_cart_light.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 product_id = String.valueOf(data.get(position).getId());
+
+                holder.btn_add_to_cart_light.setVisibility(View.GONE);
+                holder.btn_add_to_cart_dark.setVisibility(View.VISIBLE);
                 add_to_cart(user_id, product_id);
             }
 
 
         });
+        holder.btn_add_to_cart_dark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                product_id = String.valueOf(data.get(position).getId());
+
+                holder.btn_add_to_cart_dark.setVisibility(View.GONE);
+                holder.btn_add_to_cart_light.setVisibility(View.VISIBLE);
+                remove_from_cart(user_id, product_id);
+
+            }
+
+
+        });
+
     }
 
-    private void add_to_cart(final String user_id_str, final String product_id_str
-    ) {
+    private void add_to_cart(final String user_id_str, final String product_id_str) {
         String tag_str_req = "req_add_to_cart";
         StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.ADD_TO_CART,
                 new Response.Listener<String>() {
@@ -114,7 +130,7 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
 
                             if (!error) {
 
-                                Toast.makeText(ctx, "Add to wishlist", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ctx, "Add to Cart", Toast.LENGTH_SHORT).show();
 
                             } else {
                                 String error_msg = jObj.getString("error_msg");
@@ -139,6 +155,46 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
                 params.put("product_id", product_id_str);
 
 
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
+    }
+    private void remove_from_cart(final String user_id_str, final String product_id_str) {
+        String tag_str_req = "req_get_remove";
+
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.REMOVE_FROM_CART, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "1st Response:" + response);
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.e("second response:", response);
+                    boolean error = jObj.getBoolean("error");
+                    //check for error node in json
+                    if (!error) {
+                        Toast.makeText(ctx, "Remove From Cart", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String error_msg = jObj.getString("error_msg");
+                        Toast.makeText(ctx, "Error is " + error_msg, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Volley Error: " + error.getMessage());
+                Toast.makeText(ctx, "error of volley" + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("u_id", user_id_str);
+                params.put("p_id", product_id_str);
                 return params;
             }
         };
@@ -240,7 +296,7 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
-        ImageView img, btn_add_to_wishlist_light, btn_add_to_wishlist_dark, btn_add_to_cart;
+        ImageView img, btn_add_to_wishlist_light, btn_add_to_wishlist_dark, btn_add_to_cart_light, btn_add_to_cart_dark;
         TextView name, price;
 
         public ViewHolders(@NonNull View itemView) {
@@ -250,7 +306,8 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
             price = itemView.findViewById(R.id.famous_price);
             btn_add_to_wishlist_light = itemView.findViewById(R.id.famous_btn_wishlist_light);
             btn_add_to_wishlist_dark = itemView.findViewById(R.id.famous_btn_wishlist_dark);
-            btn_add_to_cart = itemView.findViewById(R.id.famous_btn_plus);
+            btn_add_to_cart_light = itemView.findViewById(R.id.famous_btn_plus_light);
+            btn_add_to_cart_dark = itemView.findViewById(R.id.famous_btn_plus_dark);
         }
     }
 }
