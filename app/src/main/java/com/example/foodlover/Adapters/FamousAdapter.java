@@ -1,6 +1,7 @@
 package com.example.foodlover.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.example.foodlover.Fragments.Cart;
 import com.example.foodlover.Fragments.HomeFragment;
 import com.example.foodlover.HelperClass.AppConfig;
 import com.example.foodlover.HelperClass.AppController;
@@ -94,7 +96,9 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
 
                 holder.btn_add_to_cart_light.setVisibility(View.GONE);
                 holder.btn_add_to_cart_dark.setVisibility(View.VISIBLE);
+                notifyDataSetChanged();
                 add_to_cart(user_id, product_id);
+
             }
 
 
@@ -107,6 +111,7 @@ public class FamousAdapter extends RecyclerView.Adapter<FamousAdapter.ViewHolder
                 holder.btn_add_to_cart_dark.setVisibility(View.GONE);
                 holder.btn_add_to_cart_light.setVisibility(View.VISIBLE);
                 remove_from_cart(user_id, product_id);
+                notifyDataSetChanged();
 
             }
 

@@ -28,30 +28,8 @@ public class Home extends AppCompatActivity {
     private Fragment cartFragment = new Cart();
     private Fragment accountFragment = new Account();
     private static BottomNavigationView navView;
-    BlurLayout blurLayout;
+
     private Fragment active = homeFragment;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.home_nv:
-//                    title.setText(R.string.app_name);
-                    loadFragment(homeFragment);
-                    break;
-                case R.id.cart_nv:
-//                    title.setText("My Cart");
-                    loadFragment(cartFragment);
-                    break;
-                case R.id.Account_nv:
-
-                    loadFragment(accountFragment);
-                    break;
-            }
-            return true;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +37,34 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         check_connection();
         navView = findViewById(R.id.bottom_nav_view);
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment, "home").commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, cartFragment, "cart").hide(cartFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, accountFragment, "account").hide(accountFragment).commit();
-
-        loadFragment(homeFragment);
-
+        navView.setOnNavigationItemSelectedListener(navListener);
+        if (savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        }
     }
+
+    BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment selectedFragment = null;
+
+            switch (item.getItemId()) {
+                case R.id.home_nv:
+                    selectedFragment = homeFragment;
+                    break;
+                case R.id.cart_nv:
+                    selectedFragment = cartFragment;
+                    break;
+                case R.id.Account_nv:
+
+                    selectedFragment = accountFragment;
+                    break;
+            }
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+            return true;
+        }
+    };
 
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {

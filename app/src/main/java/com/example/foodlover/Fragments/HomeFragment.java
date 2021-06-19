@@ -57,8 +57,6 @@ public class HomeFragment extends Fragment {
     private final ArrayList<ProductModel> famous_model = new ArrayList<>();
     private final ArrayList<CategoryModel> categoryModels = new ArrayList<>();
 
-    public HomeFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,8 +72,8 @@ public class HomeFragment extends Fragment {
         preferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         user_id = preferences.getString("id", "");
 
-        get_famous();
         get_menu();
+        get_famous();
         get_deals();
 
 

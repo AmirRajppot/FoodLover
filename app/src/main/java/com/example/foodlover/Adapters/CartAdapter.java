@@ -42,7 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolders> {
     ArrayList<CartModel> data;
     Context ctx;
     int count;
-    String user_id, product_id;
+    String user_id, product_id_str, deal_id_str;
     SharedPreferences preferences;
     TextView total_amount_tv;
     int total_quantity, total_amount;
@@ -64,26 +64,38 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolders> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolders holder, int position) {
-        Glide.with(ctx).load(AppConfig.IMAGE_URL + data.get(position).getImg()).into(holder.img);
-        holder.name.setText(data.get(position).getName());
-        holder.price.setText(String.valueOf(data.get(position).getPrice()));
+        preferences = ctx.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        user_id = preferences.getString("id", "");
+
+        if (data.get(position).getD_name().matches("null")) {
+            Glide.with(ctx).load(AppConfig.IMAGE_URL + data.get(position).getP_img()).into(holder.img);
+            holder.name.setText(data.get(position).getP_name());
+            holder.price.setText(String.valueOf(data.get(position).getP_price()));
+            //product
+        } else {
+            Glide.with(ctx).load(AppConfig.IMAGE_URL + data.get(position).getD_img()).into(holder.img);
+            holder.name.setText(data.get(position).getD_name());
+            holder.price.setText(String.valueOf(data.get(position).getD_price()));
+        }
         holder.qty.setText(String.valueOf(data.get(position).getQty()));
         holder.btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                preferences = ctx.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                user_id = preferences.getString("id", "");
-                Log.e(TAG, "onClick: " + user_id);
-                product_id = String.valueOf(data.get(position).getId());
-                Log.e(TAG, "onClick: " + product_id);
-                total_amount = Integer.parseInt(total_amount_tv.getText().toString()) - (data.get(position).getPrice() * data.get(position).getQty());
-                total_amount_tv.setText(String.valueOf(total_amount));
-                remove_from_cart(user_id, product_id);
+                if (data.get(position).getD_name().matches("null")) {
+                    product_id_str = String.valueOf(data.get(position).getP_id());
+                    total_amount = Integer.parseInt(total_amount_tv.getText().toString()) - (data.get(position).getP_price() * data.get(position).getQty());
+                    total_amount_tv.setText(String.valueOf(total_amount));
+                    remove_from_cart(user_id, product_id_str);
+                } else {
+                    deal_id_str = String.valueOf(data.get(position).getD_id());
+                    total_amount = Integer.parseInt(total_amount_tv.getText().toString()) - (data.get(position).getD_price() * data.get(position).getQty());
+                    total_amount_tv.setText(String.valueOf(total_amount));
+                    remove_from_cart(user_id, deal_id_str);
+                }
                 data.remove(position);
                 notifyDataSetChanged();
             }
         });
-
 
         holder.plus_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +109,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolders> {
 
                 for (int j = 0; j < data.size(); j++) {
                     total_quantity = total_quantity + data.get(j).getQty();
-                    total_amount = total_amount + (data.get(j).getPrice() * data.get(j).getQty());
+                    total_amount = total_amount + ((data.get(j).getP_price() * data.get(j).getQty()) + (data.get(j).getD_price() * data.get(j).getQty()));
                 }
                 total_amount_tv.setText((String.valueOf(total_amount)));
 
@@ -117,8 +129,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolders> {
                     total_amount = 0;
 
                     for (int j = 0; j < data.size(); j++) {
-                            total_quantity = total_quantity + data.get(j).getQty();
-                        total_amount = total_amount + (data.get(j).getPrice() * data.get(j).getQty());
+                        total_quantity = total_quantity + data.get(j).getQty();
+                        total_amount = total_amount + ((data.get(j).getP_price() * data.get(j).getQty()) + (data.get(j).getD_price() * data.get(j).getQty()));
                     }
                     total_amount_tv.setText((String.valueOf(total_amount)));
                 }
@@ -162,6 +174,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolders> {
                 Map<String, String> params = new HashMap<>();
                 params.put("u_id", user_id_str);
                 params.put("p_id", product_id_str);
+
                 return params;
             }
         };

@@ -22,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.foodlover.Activites.Home;
 import com.example.foodlover.Activites.WishList;
 import com.example.foodlover.Adapters.CartAdapter;
 import com.example.foodlover.Adapters.CategoryAdapter;
@@ -50,12 +51,13 @@ public class Cart extends Fragment {
     RecyclerView recyclerView;
     CartAdapter cartAdapter;
     Button btn_checkout;
-    String user_id,product_id;
+    String user_id, product_id, deal_id;
+    String product_id_str;
     String cart_data;
     int total_price = 0;
-    int total_quantity =0;
+    int total_quantity = 0;
     SharedPreferences preferences;
-
+    CartModel cartModel;
     private final ArrayList<CartModel> cart_model = new ArrayList<>();
 
     @Override
@@ -68,9 +70,9 @@ public class Cart extends Fragment {
         total_amount_tv = view.findViewById(R.id.cart_total_amount_tv);
         preferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         user_id = preferences.getString("id", "");
-        Log.e("onclick",user_id);
 
         get_cart(user_id);
+
         btn_checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,69 +80,31 @@ public class Cart extends Fragment {
                 Gson gson = new Gson();
                 total_quantity = 0;
                 cart_data = gson.toJson(cart_model);
-                Log.e("onclick",cart_data);
                 for (int j = 0; j < cart_model.size(); j++) {
 
                     total_quantity = total_quantity + cart_model.get(j).getQty();
-                    product_id = String.valueOf(cart_model.get(j).getId());
-
-
+                    product_id = String.valueOf(cart_model.get(j).getP_id());
+                    deal_id = String.valueOf(cart_model.get(j).getD_id());
                 }
-                Log.e("onclick", String.valueOf(total_quantity));
+
                 confirm_order(user_id, String.valueOf(total_quantity),
                         total_amount_tv.getText().toString(), cart_data);
-                Log.e("amount", String.valueOf(total_amount_tv));
-                remove_from_cart(user_id, product_id);
+                if (deal_id.matches("null")) {
+                    remove_from_cart(user_id, product_id);
+                } else {
+                    remove_from_cart(user_id, deal_id);
+                }
+                cartAdapter.notifyDataSetChanged();
+                cart_model.clear();
 
 
             }
         });
         return view;
     }
-    private void remove_from_cart(final String user_id_str, final String product_id_str) {
-        String tag_str_req = "req_get_remove";
-
-
-        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.REMOVE_FROM_CART, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "1st Response:" + response);
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    Log.e("second response:", response);
-                    boolean error = jObj.getBoolean("error");
-                    //check for error node in json
-                    if (!error) {
-                        Toast.makeText(getActivity(), "Remove From Cart", Toast.LENGTH_SHORT).show();
-                    } else {
-                        String error_msg = jObj.getString("error_msg");
-                        Toast.makeText(getActivity(), "Error is " + error_msg, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Volley Error: " + error.getMessage());
-                Toast.makeText(getActivity(), "error of volley" + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("u_id", user_id_str);
-                params.put("p_id", product_id_str);
-                return params;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
-    }
 
     private void get_cart(final String user_id_str) {
         String tag_str_req = "req_get_cart";
-        Log.e("click", "i am calling");
         StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.GET_CART + "?user_id=" + user_id_str, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -153,19 +117,41 @@ public class Cart extends Fragment {
                     if (!error) {
                         JSONArray array = jObj.getJSONArray("cart_list");
                         for (int i = 0; i < array.length(); i++) {
-                            //Toast.makeText(getContext(), , Toast.LENGTH_SHORT).show();
+                            product_id_str = array.getJSONObject(i).getString("p_id");
+                            if (product_id_str.matches("null")) {
+                                cart_model.add(new CartModel(0,
+                                        array.getJSONObject(i).getInt("d_id"),
+                                        0,
+                                        array.getJSONObject(i).getInt("d_price"),
+                                        array.getJSONObject(i).getString("p_img").replace("~/images", ""),
+                                        array.getJSONObject(i).getString("d_img").replace("~/images", ""),
+                                        array.getJSONObject(i).getString("p_name"),
+                                        array.getJSONObject(i).getString("d_name")
+                                ));
 
-                            cart_model.add(new CartModel(array.getJSONObject(i).getInt("id"), array.getJSONObject(i).getInt("price"), array.getJSONObject(i).getString("img").replace("~/images", ""), array.getJSONObject(i).getString("name")));
+                            } else {
+                                cart_model.add(new CartModel(array.getJSONObject(i).getInt("p_id"),
+                                        0,
+                                        array.getJSONObject(i).getInt("p_price"),
+                                        0,
+                                        array.getJSONObject(i).getString("p_img").replace("~/images", ""),
+                                        array.getJSONObject(i).getString("d_img").replace("~/images", ""),
+                                        array.getJSONObject(i).getString("p_name"),
+                                        array.getJSONObject(i).getString("d_name")
+                                ));
+
+                            }
                         }
                         for (int j = 0; j < cart_model.size(); j++) {
                             total_quantity = total_quantity + cart_model.get(j).getQty();
-                            total_price = total_price + (cart_model.get(j).getPrice() * cart_model.get(j).getQty());
+                            total_price = total_price + ((cart_model.get(j).getP_price() * cart_model.get(j).getQty()) + (cart_model.get(j).getD_price() * cart_model.get(j).getQty()));
                         }
                         total_amount_tv.setText(String.valueOf(total_price));
                         cartAdapter = new CartAdapter(cart_model, getActivity(), total_amount_tv);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                         recyclerView.setAdapter(cartAdapter);
                         cartAdapter.notifyDataSetChanged();
+
 
                     } else {
                         String error_msg = jObj.getString("error_msg");
@@ -193,6 +179,48 @@ public class Cart extends Fragment {
         AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
     }
 
+    private void remove_from_cart(final String user_id_str, final String product_id_str) {
+        String tag_str_req = "req_get_remove";
+
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.REMOVE_FROM_CART, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "1st Response:" + response);
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    Log.e("second response:", response);
+                    boolean error = jObj.getBoolean("error");
+                    //check for error node in json
+                    if (!error) {
+
+                    } else {
+                        String error_msg = jObj.getString("error_msg");
+                        Toast.makeText(getActivity(), "Error is " + error_msg, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Volley Error: " + error.getMessage());
+                Toast.makeText(getActivity(), "error of volley" + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("u_id", user_id_str);
+                params.put("p_id", product_id_str);
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
+    }
+
+
     private void confirm_order(final String user_id, final String sub_quantity, final String sub_total, final String cart_model_str
     ) {
         String tag_str_req = "req_order_confirm";
@@ -210,8 +238,6 @@ public class Cart extends Fragment {
                             if (!error) {
                                 total_amount_tv.setText("");
                                 cartAdapter.notifyDataSetChanged();
-                                cart_model.clear();
-
                                 Toast.makeText(getActivity(), "Order is Confirmed", Toast.LENGTH_SHORT).show();
 
                             } else {
