@@ -34,6 +34,7 @@ public class ForgetPassword extends AppCompatActivity {
     AppCompatButton reset_password_btn;
     SharedPreferences preferences;
     String user_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +46,7 @@ public class ForgetPassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (!validatePass() | !validateConfirmPassword()) {
-                    Toast.makeText(ForgetPassword.this, "Hi", Toast.LENGTH_SHORT).show();
+                if (!validatePhone() | !validatePass() | !validateConfirmPassword()) {
                     return;
                 } else {
                     resetPassword(user_id, new_password_forgot_et.getEditText().getText().toString());
@@ -103,6 +103,7 @@ public class ForgetPassword extends AppCompatActivity {
         };
         AppController.getInstance().addToRequestQueue(strReq, tag_str_req);
     }
+
     private void init() {
         user_phone_et = findViewById(R.id.user_phone_et);
         new_password_forgot_et = findViewById(R.id.new_password_forgot_et);
@@ -122,11 +123,25 @@ public class ForgetPassword extends AppCompatActivity {
             new_password_forgot_et.setError("Password must have 5 digits");
             return false;
 
-        }
-        else {
+        } else {
             new_password_forgot_et.setError(null);
             return true;
         }
+    }
+
+    private boolean validatePhone() {
+        String phone = user_phone_et.getEditText().getText().toString().trim();
+        if (phone.isEmpty()) {
+            user_phone_et.setError("Field cannot be empty");
+            return false;
+        } else if (phone.length() < 13) {
+            user_phone_et.setError("Enter 13 digits +92xxxxxxxxx");
+            return false;
+        } else {
+            user_phone_et.setError(null);
+            return true;
+        }
+
     }
 
     private boolean validateConfirmPassword() {

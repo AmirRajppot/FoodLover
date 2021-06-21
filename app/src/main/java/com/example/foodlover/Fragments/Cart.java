@@ -76,31 +76,47 @@ public class Cart extends Fragment {
         btn_checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Gson gson = new Gson();
-                total_quantity = 0;
-                cart_data = gson.toJson(cart_model);
-                for (int j = 0; j < cart_model.size(); j++) {
-
-                    total_quantity = total_quantity + cart_model.get(j).getQty();
-                    product_id = String.valueOf(cart_model.get(j).getP_id());
-                    deal_id = String.valueOf(cart_model.get(j).getD_id());
-                }
-
-                confirm_order(user_id, String.valueOf(total_quantity),
-                        total_amount_tv.getText().toString(), cart_data);
-                if (deal_id.matches("null")) {
-                    remove_from_cart(user_id, product_id);
+                if (!ValidSubTotal()) {
+                    return;
                 } else {
-                    remove_from_cart(user_id, deal_id);
+                    Gson gson = new Gson();
+                    total_quantity = 0;
+                    cart_data = gson.toJson(cart_model);
+                    for (int j = 0; j < cart_model.size(); j++) {
+
+                        total_quantity = total_quantity + cart_model.get(j).getQty();
+                        product_id = String.valueOf(cart_model.get(j).getP_id());
+                        deal_id = String.valueOf(cart_model.get(j).getD_id());
+                    }
+
+                    confirm_order(user_id, String.valueOf(total_quantity),
+                            total_amount_tv.getText().toString(), cart_data);
+
+                    if (deal_id.matches("null")) {
+                        remove_from_cart(user_id, product_id);
+                    } else {
+                        remove_from_cart(user_id, deal_id);
+                    }
+                    cartAdapter.notifyDataSetChanged();
+                    cart_model.clear();
+
+
                 }
-                cartAdapter.notifyDataSetChanged();
-                cart_model.clear();
-
-
             }
         });
         return view;
+    }
+
+    private boolean ValidSubTotal() {
+        String subtotal = total_amount_tv.getText().toString();
+        if (subtotal.isEmpty()) {
+            total_amount_tv.setError("Field cannot be empty");
+            return false;
+        } else {
+            total_amount_tv.setError(null);
+            return true;
+        }
+
     }
 
     private void get_cart(final String user_id_str) {

@@ -49,7 +49,7 @@ public class SignUp extends AppCompatActivity {
         btn_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!validateName() | !validatePhone() | !validateCNIC() | !validateEmail() |
+                if (!validateName() | !validateAddress() | !validatePhone() | !validateCNIC() | !validateEmail() |
                         !validatePass() | !validateConfirmPassword()) {
                     return;
 
@@ -86,12 +86,24 @@ public class SignUp extends AppCompatActivity {
 
     }
 
+    private boolean validateAddress() {
+        String address = address_et.getEditText().getText().toString();
+        if (address.isEmpty()) {
+            address_et.setError("Field cannot be empty");
+            return false;
+        } else {
+            address_et.setError(null);
+            return true;
+        }
+
+    }
+
     private boolean validatePhone() {
         String phone = phone_et.getEditText().getText().toString().trim();
         if (phone.isEmpty()) {
             phone_et.setError("Field cannot be empty");
             return false;
-        } else if (phone.length() < 11) {
+        } else if (phone.length() < 13) {
             phone_et.setError("Enter 13 digits +92xxxxxxxxx");
             return false;
         } else {
@@ -105,6 +117,9 @@ public class SignUp extends AppCompatActivity {
         String cnic = cnic_et.getEditText().getText().toString();
         if (cnic.isEmpty()) {
             cnic_et.setError("Field cannot be empty");
+            return false;
+        } else if (cnic.length() < 13) {
+            cnic_et.setError("Enter 13 digits 34xxxxxxxxxxx");
             return false;
         } else {
             cnic_et.setError(null);
@@ -214,7 +229,6 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Volley Error: " + error.getMessage());
-//                Toast.makeText(getApplicationContext(), "error of volley" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }) {
             protected Map<String, String> getParams() {

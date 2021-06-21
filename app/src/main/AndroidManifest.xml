@@ -19,7 +19,9 @@
 
 
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activites.WishList"></activity>
+        <activity
+            android:name=".Activites.WishList"
+            android:label="WishList" />
         <activity
             android:name=".Activites.PurchaseHistory"
             android:label="Purchase History" />

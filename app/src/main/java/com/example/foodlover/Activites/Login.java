@@ -80,8 +80,8 @@ public class Login extends AppCompatActivity {
         if (name_et.isEmpty()) {
             phone_et.setError("Field cannot be empty");
             return false;
-        } else if (name_et.length() < 11) {
-            phone_et.setError("Enter 13 digits 03xxxxxxxxx");
+        } else if (name_et.length() < 13) {
+            phone_et.setError("Enter 13 digits +923xxxxxxxxx");
             return false;
         } else {
             phone_et.setError(null);
@@ -121,12 +121,13 @@ public class Login extends AppCompatActivity {
                         editor.apply();
                         phone_et.setText("");
                         password_et.setText("");
+                        Toast.makeText(Login.this, "Welcome!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(Login.this, Home.class);
                         startActivity(intent);
 
                     } else {
-                        String error_msg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(), "Error is " + error_msg, Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getApplicationContext(), "Incorrect UserPhone or Password", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
